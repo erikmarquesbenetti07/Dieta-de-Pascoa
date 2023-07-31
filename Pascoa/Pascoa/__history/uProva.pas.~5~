@@ -1,0 +1,153 @@
+unit uProva;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
+  Menus, StdCtrls, Buttons, Spin, ExtCtrls, ComCtrls;
+
+type
+  TfrmPascoa = class(TForm)
+    grbOvo: TGroupBox;
+    cmbOvo: TComboBox;
+    rdgCrocante: TRadioGroup;
+    btnCalcular: TSpeedButton;
+    lblCalcular: TLabel;
+    grbBombons: TGroupBox;
+    lblQtde: TLabel;
+    chkLicor: TCheckBox;
+    chkTrufas: TCheckBox;
+    chkLeite: TCheckBox;
+    chkRecheado: TCheckBox;
+    edtLicor: TEdit;
+    edtTrufas: TEdit;
+    edtRecheado: TEdit;
+    edtLeite: TEdit;
+    grbPeso: TGroupBox;
+    spiPeso: TSpinEdit;
+    grbAcucar: TGroupBox;
+    chkNormal: TCheckBox;
+    chkDiet: TCheckBox;
+    lblCalorias: TLabel;
+    procedure chkNormalClick(Sender: TObject);
+    procedure chkDietClick(Sender: TObject);
+    procedure chkLicorClick(Sender: TObject);
+    procedure edtLicorExit(Sender: TObject);
+    procedure chkTrufasClick(Sender: TObject);
+    procedure edtTrufasExit(Sender: TObject);
+    procedure chkRecheadoClick(Sender: TObject);
+    procedure chkLeiteClick(Sender: TObject);
+    procedure Habilita_Desabilita(Caixa: TEdit;
+                                     Selecao: TCheckBox);
+    procedure Verifica_Qtde(Caixa: Tedit);
+    procedure Verifica_Qtde2(Sender: TObject);
+
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmPascoa: TfrmPascoa;
+
+implementation
+
+{$R *.DFM}
+
+procedure TfrmPascoa.chkDietClick(Sender: TObject);
+begin
+  { if chkDiet.Checked then
+      chkNormal.Checked := False
+   else
+      chkNormal.Checked := True; }
+
+   chkNormal.Checked := not chkDiet.Checked;
+
+end;
+
+procedure TfrmPascoa.chkLeiteClick(Sender: TObject);
+begin
+   Habilita_Desabilita(edtLeite, chkLeite);
+end;
+
+procedure TfrmPascoa.chkLicorClick(Sender: TObject);
+begin
+   Habilita_Desabilita(edtLicor, chkLicor);
+end;
+
+procedure TfrmPascoa.chkNormalClick(Sender: TObject);
+begin
+   {if chkNormal.Checked then
+      begin
+
+        chkDiet.Checked := False;
+      end
+   else
+      begin
+
+        chkDiet.Checked := True;
+      end;
+            }
+   chkDiet.Checked := not chkNormal.Checked;
+end;
+
+procedure TfrmPascoa.chkRecheadoClick(Sender: TObject);
+begin
+   Habilita_Desabilita(edtRecheado, chkRecheado);
+end;
+
+procedure TfrmPascoa.chkTrufasClick(Sender: TObject);
+begin
+  { if chkTrufas.Checked then
+      begin
+        edtTrufas.Enabled := True;
+        edtTrufas.SetFocus;
+      end
+   else
+      edtTrufas.Enabled := False; }
+   Habilita_Desabilita(edtTrufas, chkTrufas);
+end;
+
+procedure TfrmPascoa.edtLicorExit(Sender: TObject);
+begin
+    Verifica_Qtde(edtLicor);
+
+end;
+
+procedure TfrmPascoa.edtTrufasExit(Sender: TObject);
+begin
+   Verifica_Qtde(edtTrufas);
+end;
+
+procedure TfrmPascoa.Habilita_Desabilita(Caixa: TEdit; Selecao: TCheckBox);
+begin
+   Caixa.Enabled := Selecao.Checked;
+   if Selecao.Checked then
+      Caixa.SetFocus
+   else
+      Caixa.Text := '0';
+
+end;
+
+procedure TfrmPascoa.Verifica_Qtde(Caixa: Tedit);
+begin
+
+  if Caixa.Text = '0' then
+     begin
+        MessageDlg('Qtde deve ser diferente de 0', mtError, [mbok], 0);
+        Caixa.SetFocus;
+     end;
+
+end;
+
+procedure TfrmPascoa.Verifica_Qtde2(Sender: TObject);
+begin
+   if (Sender as TEdit).Text = '0' then
+     begin
+        MessageDlg('Qtde deve ser diferente de 0', mtError, [mbok], 0);
+        (Sender as TEdit).SetFocus;
+     end;
+end;
+
+end.

@@ -1,0 +1,55 @@
+unit uProva;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
+  Menus, StdCtrls, Buttons, Spin, ExtCtrls, ComCtrls;
+
+type
+  TfrmPascoa = class(TForm)
+    grbOvo: TGroupBox;
+    cmbOvo: TComboBox;
+    rdgCrocante: TRadioGroup;
+    btnCalcular: TSpeedButton;
+    lblCalcular: TLabel;
+    grbBombons: TGroupBox;
+    lblQtde: TLabel;
+    chkLicor: TCheckBox;
+    chkTrufas: TCheckBox;
+    chkLeite: TCheckBox;
+    chkRecheado: TCheckBox;
+    edtLicor: TEdit;
+    edtTrufas: TEdit;
+    edtRecheado: TEdit;
+    edtLeite: TEdit;
+    grbPeso: TGroupBox;
+    spiPeso: TSpinEdit;
+    grbAcucar: TGroupBox;
+    chkNormal: TCheckBox;
+    chkDiet: TCheckBox;
+    lblCalorias: TLabel;
+    procedure chkLicorClick(Sender: TObject);
+
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmPascoa: TfrmPascoa;
+
+implementation
+
+{$R *.DFM}
+
+procedure TfrmPascoa.chkLicorClick(Sender: TObject);
+begin
+    if chkLicor.Checked then
+       edtLicor.Enabled := True
+    else
+       edtLicor.Enabled := False;
+end;
+
+end.

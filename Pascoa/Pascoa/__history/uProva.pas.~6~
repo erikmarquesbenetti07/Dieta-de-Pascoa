@@ -1,0 +1,80 @@
+unit uProva;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
+  Menus, StdCtrls, Buttons, Spin, ExtCtrls, ComCtrls;
+
+type
+  TfrmPascoa = class(TForm)
+    grbOvo: TGroupBox;
+    cmbOvo: TComboBox;
+    rdgCrocante: TRadioGroup;
+    btnCalcular: TSpeedButton;
+    lblCalcular: TLabel;
+    grbBombons: TGroupBox;
+    lblQtde: TLabel;
+    chkLicor: TCheckBox;
+    chkTrufas: TCheckBox;
+    chkLeite: TCheckBox;
+    chkRecheado: TCheckBox;
+    edtLicor: TEdit;
+    edtTrufas: TEdit;
+    edtRecheado: TEdit;
+    edtLeite: TEdit;
+    grbPeso: TGroupBox;
+    spiPeso: TSpinEdit;
+    grbAcucar: TGroupBox;
+    chkNormal: TCheckBox;
+    chkDiet: TCheckBox;
+    lblCalorias: TLabel;
+    procedure Habilita_Desabilita(Caixa: TEdit;
+                                     Selecao: TCheckBox);
+    procedure Verifica_Qtde(Caixa: Tedit);
+    procedure Verifica_Qtde2(Sender: TObject);
+
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmPascoa: TfrmPascoa;
+
+implementation
+
+{$R *.DFM}
+
+procedure TfrmPascoa.Habilita_Desabilita(Caixa: TEdit; Selecao: TCheckBox);
+begin
+   Caixa.Enabled := Selecao.Checked;
+   if Selecao.Checked then
+      Caixa.SetFocus
+   else
+      Caixa.Text := '0';
+
+end;
+
+procedure TfrmPascoa.Verifica_Qtde(Caixa: Tedit);
+begin
+
+  if Caixa.Text = '0' then
+     begin
+        MessageDlg('Qtde deve ser diferente de 0', mtError, [mbok], 0);
+        Caixa.SetFocus;
+     end;
+
+end;
+
+procedure TfrmPascoa.Verifica_Qtde2(Sender: TObject);
+begin
+   if (Sender as TEdit).Text = '0' then
+     begin
+        MessageDlg('Qtde deve ser diferente de 0', mtError, [mbok], 0);
+        (Sender as TEdit).SetFocus;
+     end;
+end;
+
+end.

@@ -1,0 +1,169 @@
+unit uProva;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
+  Menus, StdCtrls, Buttons, Spin, ExtCtrls, ComCtrls;
+
+type
+  TfrmPascoa = class(TForm)
+    grbOvo: TGroupBox;
+    cmbOvo: TComboBox;
+    rdgCrocante: TRadioGroup;
+    btnCalcular: TSpeedButton;
+    lblCalcular: TLabel;
+    grbBombons: TGroupBox;
+    lblQtde: TLabel;
+    chkLicor: TCheckBox;
+    chkTrufas: TCheckBox;
+    chkLeite: TCheckBox;
+    chkRecheado: TCheckBox;
+    edtLicor: TEdit;
+    edtTrufas: TEdit;
+    edtRecheado: TEdit;
+    edtLeite: TEdit;
+    grbPeso: TGroupBox;
+    spiPeso: TSpinEdit;
+    grbAcucar: TGroupBox;
+    chkNormal: TCheckBox;
+    chkDiet: TCheckBox;
+    lblCalorias: TLabel;
+    procedure chkLicorClick(Sender: TObject);
+    procedure chkTrufasClick(Sender: TObject);
+    procedure chkRecheadoClick(Sender: TObject);
+    procedure chkLeiteClick(Sender: TObject);
+    procedure chkNormalClick(Sender: TObject);
+    procedure chkDietClick(Sender: TObject);
+    procedure cmbOvoChange(Sender: TObject);
+    procedure btnCalcularClick(Sender: TObject);
+    procedure Testa_Numerico(Sender: TObject; var Key: Char);
+    procedure Verifica_Qtde(Sender: TObject);
+    procedure Habilita_Qtde(Caixa: TEdit; Selecao: TCheckBox);
+
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmPascoa: TfrmPascoa;
+
+implementation
+
+{$R *.DFM}
+
+procedure TfrmPascoa.btnCalcularClick(Sender: TObject);
+
+var Calorias, Qtde: Single;
+
+begin
+   Calorias := 0;
+
+   Calorias := spiPeso.Value * 45;
+
+   case cmbOvo.ItemIndex of
+      1: Calorias := Calorias * 1.05;
+      2: Calorias := Calorias * 1.15;
+   end;
+
+   if rdgCrocante.ItemIndex = 0  then
+      Calorias := Calorias * 1.1;
+
+   if chkDiet.Checked then
+      Calorias := Calorias * 0.65;
+
+   Qtde := 0;
+
+   Qtde := StrToFloat(edtLicor.Text) + StrToFloat(edtTrufas.Text) +
+           StrToFloat(edtRecheado.Text) + StrToFloat(edtLeite.Text);
+
+
+   Calorias := Calorias + (Qtde * 60);
+
+   lblCalorias.Caption := 'Total de Calorias: ' + FloatToStr(Calorias);
+end;
+
+procedure TfrmPascoa.chkDietClick(Sender: TObject);
+begin
+   {if chkDiet.Checked  then
+      chkNormal.Checked := False
+   else
+      chkNormal.Checked := True;
+    }
+
+    chkNormal.Checked := not chkDiet.Checked;
+
+end;
+
+
+procedure TfrmPascoa.chkNormalClick(Sender: TObject);
+begin
+  { if chkNormal.Checked then
+      chkDiet.Checked := False
+   else
+      chkDiet.Checked := True;
+   }
+
+   chkDiet.Checked := not chkNormal.Checked;
+
+end;
+
+
+procedure TfrmPascoa.chkLeiteClick(Sender: TObject);
+begin
+   Habilita_Qtde(edtLeite, chkLeite);
+end;
+
+procedure TfrmPascoa.chkLicorClick(Sender: TObject);
+begin
+    Habilita_Qtde(edtLicor, chkLicor);
+end;
+
+procedure TfrmPascoa.chkRecheadoClick(Sender: TObject);
+begin
+   Habilita_Qtde(edtRecheado, chkRecheado);
+end;
+
+procedure TfrmPascoa.chkTrufasClick(Sender: TObject);
+begin
+    Habilita_Qtde(edtTrufas, chkTrufas);
+end;
+
+procedure TfrmPascoa.Habilita_Qtde(Caixa: TEdit; Selecao: TCheckBox);
+begin
+   Caixa.Enabled := Selecao.Checked;
+
+    if Selecao.Checked then
+       Caixa.SetFocus
+    else
+       Caixa.Text := '0';
+
+end;
+procedure TfrmPascoa.cmbOvoChange(Sender: TObject);
+begin
+   if cmbOvo.ItemIndex <> -1 then
+      btnCalcular.Enabled := True
+   else
+      btnCalcular.Enabled := False;
+end;
+
+
+
+procedure TfrmPascoa.Testa_Numerico(Sender: TObject; var Key: Char);
+begin
+     if  not (key in ['0'..'9', #8]) then
+        key := #0;
+end;
+
+procedure TfrmPascoa.Verifica_Qtde(Sender: TObject);
+begin
+   if ((Sender as TEdit).Text = '0') Or ((Sender as TEdit).Text = '') then
+      begin
+        MessageDlg('Deve ser informado um valor!', mtError, [mbOK], 0);
+        (Sender as TEdit).SetFocus;
+      end;
+end;
+
+end.
